@@ -11,13 +11,23 @@
 |
 */
 
-Route::get('/', function () {
-    return view('hello');
-});
+Route::get('/', [
+    'uses' => 'SiteController@index'
+]);
 
-Route::get('/about', function () {
-    return view('about');
-});
-Route::get('/news', function () {
-    return view('news');
-});
+
+Route::get('/news', [
+    'uses' => 'NewsController@index'
+]);
+
+Route::get('/news/category/{id}', [
+    'uses' => 'NewsController@category'
+]);
+
+Route::get('/news/article/{id}', [
+    'uses' => 'NewsController@article'
+]);
+
+Route::get('/news/create', [
+    'uses' => 'NewsController@articleCreate'
+]);
