@@ -12,22 +12,32 @@
 */
 
 Route::get('/', [
-    'uses' => 'SiteController@index'
+    'uses' => 'SiteController@index',
+    'as' => 'index'
 ]);
 
+Route::group([
+    'prefix' => 'news',
+    'as' => 'news::'
 
-Route::get('/news', [
-    'uses' => 'NewsController@index'
-]);
+], function () {
+    Route::get('/', [
+        'uses' => 'NewsController@index',
+        'as' => 'index'
+    ]);
 
-Route::get('/news/category/{id}', [
-    'uses' => 'NewsController@category'
-]);
+    Route::get('/category/{id}', [
+        'uses' => 'NewsController@category',
+        'as' => 'category'
+    ]);
 
-Route::get('/news/article/{id}', [
-    'uses' => 'NewsController@article'
-]);
+    Route::get('/article/{id}', [
+        'uses' => 'NewsController@article',
+        'as' => 'article'
+    ]);
 
-Route::get('/news/create', [
-    'uses' => 'NewsController@articleCreate'
-]);
+    Route::get('/create', [
+        'uses' => 'NewsController@articleCreate',
+        'as' => 'create'
+    ]);
+});
