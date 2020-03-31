@@ -3,6 +3,7 @@
 @section('title') главная страница @endsection
 
 @section('content')
+    @dump($news)
     <div class="jumbotron">
         <div class="container">
             <h1 class="display-3">Hello!</h1>

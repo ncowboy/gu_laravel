@@ -8,6 +8,7 @@ class SiteController extends Controller
 {
     public function index()
     {
-        return view('index');
+        $news = \DB::table('news')->get();
+        return view('index', ['news' => $news]);
     }
 }
