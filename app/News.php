@@ -1,12 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App;
 
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 
-class NewsController extends Controller
+
+class News extends Model
 {
-  private $news = [
+
+  /**
+   * @var array
+   */
+  private static $news = [
     1 => [
       'id' => 1,
       'category_id' => 1,
@@ -91,71 +96,13 @@ class NewsController extends Controller
         'text_short' => 'Текст новости',
         'text_full' => 'Полный текст новости'
       ],
-
   ];
 
-  private $categories = [
-    1 => 'Главные новости',
-    2 => 'Политика',
-    3 => 'Спорт',
-    4 => 'Культура'
-  ];
-
-  public function index()
+  /**
+   * @return array
+   */
+  public static function getNews()
   {
-    return redirect('/news/category/1');
-  }
-
-  public function category($id)
-  {
-    $categoryName = '';
-
-    if (!array_key_exists((int)$id, $this->categories)) {
-      abort('404');
-    }
-
-    foreach ($this->categories as $key => $value) {
-      if ($key === (int)$id) {
-        $categoryName = $value;
-      }
-    }
-
-    $news = [];
-    foreach ($this->news as $key => $value) {
-      if ($value['category_id'] === (int)$id) {
-        $news[$key] = $value;
-      }
-    }
-
-    return view('news.category', [
-      'categoryName' => $categoryName,
-      'news' => $news
-    ]);
-  }
-
-  public function article($id)
-  {
-    if (!array_key_exists((int)$id, $this->news)) {
-      abort('404');
-    }
-
-    $article = null;
-
-    foreach ($this->news as $value) {
-      if ($value['id'] === (int)$id) {
-        $article = $value;
-      }
-    }
-
-    return view('news.article', ['article' => $article]);
-
-  }
-
-  public function articleCreate(Request $request)
-  {
-    if ($request->isMethod('post')) {
-      return back()->with('success', 'Новость добавлена и ожидает модерации!');
-    }
-    return view('news.create');
+    return self::$news;
   }
 }

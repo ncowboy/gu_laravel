@@ -36,7 +36,7 @@ Route::group([
         'as' => 'article'
     ]);
 
-    Route::get('/create', [
+    Route::match(['post', 'get'], '/create', [
         'uses' => 'NewsController@articleCreate',
         'as' => 'create'
     ]);
