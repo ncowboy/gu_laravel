@@ -12,22 +12,46 @@ class CategoriesSeeder extends Seeder
     public function run()
     {
         DB::table('categories')
-            ->insert($this->generateData());
+            ->insert($this->getData());
     }
 
-    protected function generateData()
+    protected function getData()
     {
         $faker = \Faker\Factory::create('ru_RU');
-        $data = [];
-        for ($i = 0; $i < 10; $i++) {
-            $data[] = [
-                'name' => $faker->realText(rand(10, 16)),
-                'description' => $faker->realText(1000),
-                'active' => $faker->boolean(),
+        return [
+            0 => [
+                'name' => 'Главные новости',
+                'description' => $faker->realText(64),
+                'active' => true,
+                'main' => true,
                 'created_at' => $faker->date('Y-m-d'),
-                'updated_at' => $faker->date('Y-m-d'),
-            ];
-        }
-        return $data;
+                'updated_at' => $faker->date('Y-m-d')
+            ],
+            1 => [
+                'name' => 'Политика',
+                'description' => $faker->realText(64),
+                'active' => true,
+                'main' => false,
+                'created_at' => $faker->date('Y-m-d'),
+                'updated_at' => $faker->date('Y-m-d')
+            ],
+            2 => [
+                'name' => 'Спорт',
+                'description' => $faker->realText(64),
+                'active' => true,
+                'main' => false,
+                'created_at' => $faker->date('Y-m-d'),
+                'updated_at' => $faker->date('Y-m-d')
+            ],
+            3 => [
+                'name' => 'Культура',
+                'description' => $faker->realText(64),
+                'active' => true,
+                'main' => false,
+                'created_at' => $faker->date('Y-m-d'),
+                'updated_at' => $faker->date('Y-m-d')
+            ],
+
+        ];
     }
 }

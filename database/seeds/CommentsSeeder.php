@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\models\News;
+use App\User;
 
-class NewsSeeder extends Seeder
+class CommentsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +13,7 @@ class NewsSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('news')->insert($this->getData());
+        DB::table('comments')->insert($this->getData());
     }
 
     /**
@@ -22,18 +24,15 @@ class NewsSeeder extends Seeder
     {
         $faker = \Faker\Factory::create('ru_RU');
         $data = [];
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 500; $i++) {
             $data[] = [
-                'title' => $faker->realText(rand(10, 24)),
-                'author_id' => \App\User::all()->random()->id,
-                'category_id' => $faker->numberBetween(2, 4),
-                'text_short' => $faker->realText(rand(128, 256)),
-                'text_full' => $faker->realText(rand(2048, 5120)),
+                'author_id' => User::all()->random()->id,
+                'article_id' => News::all()->random()->id,
                 'created_at' => $faker->date('Y-m-d'),
                 'updated_at' => $faker->date('Y-m-d'),
+                'comment' => $faker->realText(rand(1024, 2048))
             ];
         }
         return $data;
-
     }
 }

@@ -13,38 +13,26 @@
 <body>
 <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">ТЫндекс.Новости</a>
+        <a class="navbar-brand" href="/">ТЫндекс.Новости</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
                 aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Домой</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="{{ route('index') }}" id="dropdown01"
-                       data-toggle="dropdown"
-                       aria-haspopup="true"
-                       aria-expanded="false">Новости</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown01">
-                        <a class="dropdown-item" href="{{ route('news::category', ['id' => 1]) }}">Главные новости</a>
-                        <a class="dropdown-item" href="{{ route('news::category', ['id' => 2]) }}">Политика</a>
-                        <a class="dropdown-item" href="{{ route('news::category', ['id' => 3]) }}">Спорт</a>
-                        <a class="dropdown-item" href="{{ route('news::category', ['id' => 4]) }}">Культура</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('news::create') }}">Предложить новость</a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Поиск по сайту" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Найти</button>
-            </form>
+            @include('layouts.menu')
+            @if (Auth::guest())
+                <a href="{{route('login')}}" class="btn btn-outline-success my-2 my-sm-0 mr-2">Вход</a>
+                <a class="text-light" href="{{route('register')}}">Регистрация</a>
+            @else
+                <p class="text-light mb-0 mr-2"><a href="{{route('admin::default')}}">{{Auth::user()->email}}</a></p>
+                <form action="{{route('logout')}}" method="post" class="form-inline my-2 my-lg-0">
+                    @csrf
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Выход</button>
+                </form>
+            @endif
         </div>
+
     </nav>
 </header>
 

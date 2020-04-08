@@ -16,17 +16,18 @@ class CreateNewsTable extends Migration
         Schema::create('news', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('title', 64);
-            $table->bigInteger('author_id')->nullable(false)->unsigned();
-            $table->bigInteger('category_id')->nullable(false)->unsigned();
-            $table->string('text_short', 1024)->nullable(false);
-            $table->string('text_full', 5120)->nullable(false);
+            $table->bigInteger('author_id')->nullable(false)->unsigned()->index();
+            $table->bigInteger('category_id')->nullable(false)->unsigned()->index();
+            $table->string('text_short', 256)->nullable(false);
+            $table->text('text_full')->nullable(false);
+            $table->boolean('active')->default(1)->index()->nullable(false);
             $table->timestamps();
         });
 
         Schema::table('news', function (Blueprint $table) {
-            $table->foreign('author_id')->references('id')->on('users');
+            $table->foreign('author_id')->references('id')->on('users')->onDelete('CASCADE');
 
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('CASCADE');
         });
     }
 

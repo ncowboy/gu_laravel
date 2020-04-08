@@ -1,11 +1,11 @@
 @extends('layouts.main')
 
-@section('title') {{ $categoryName }} @endsection
+@section('title') {{ $model->name }} @endsection
 
 @section('content')
     <div class="jumbotron">
         <div class="container">
-            <h1 class="display-3"> {{ $categoryName }}</h1>
+            <h1 class="display-3"> {{ $model->name}}</h1>
         </div>
     </div>
 
@@ -13,14 +13,15 @@
         <!-- Example row of columns -->
         <div class="row">
             @foreach($news as $value)
-                <div class="col-md-4">
-                    <h2>{{ $value['title'] }}</h2>
-                    <p>{{ $value['text_short'] }} </p>
-                    <p><a class="btn btn-secondary" href="{{ route('news::article', ['id' => $value['id']]) }}"
+                <div class="col-md-4 d-flex flex-column justify-content-between">
+                    <h2>{{ $value->title }}</h2>
+                    <p>{{ $value->text_short }} </p>
+                    <p><a class="btn btn-primary" href="{{ route('news::article', ['id' => $value->id]) }}"
                           role="button">Подробнее &raquo;</a></p>
                 </div>
             @endforeach
         </div>
+        {{$news->links()}}
         <hr>
     </div> <!-- /container -->
 @endsection
