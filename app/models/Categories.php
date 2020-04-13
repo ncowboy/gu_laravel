@@ -29,6 +29,38 @@ use Illuminate\Database\Eloquent\Model;
 class Categories extends Model
 {
     /**
+     * @var array
+     */
+    protected $fillable = ['name', 'description', 'main', 'active'];
+
+    /**
+     * @return array
+     */
+    public static function rules()
+    {
+        return [
+            'name' => 'required|min:5|max:50|unique:categories,name',
+            'description' => 'required|max:1024',
+            'main' => 'boolean',
+            'active' => 'boolean',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function attributeNames()
+    {
+        return [
+            'name' => 'Название',
+            'description' => 'Описание',
+            'main' => 'На главной странице',
+            'active' => 'активность',
+        ];
+    }
+
+
+    /**
      * @return array
      */
     public static function getArrayCategories()

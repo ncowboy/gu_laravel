@@ -29,6 +29,33 @@ class Comments extends Model
 {
     protected $fillable = ['comment', 'author_id', 'article_id'];
 
+    /**
+     * @return array
+     */
+    public static function rules()
+    {
+        return [
+            'article_id' => 'required|exists:news,id',
+            'author_id' => 'required|exists:users,id',
+            'comment' => 'required|max:1024'
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function attributeNames()
+    {
+        return [
+            'article_id' => 'Новость',
+            'author_id' => 'Автор',
+            'comment' => 'комментарий'
+        ];
+    }
+
+    /**
+     * @return Model|\Illuminate\Database\Eloquent\Relations\BelongsTo|object|null
+     */
     public function author()
     {
         return $this->belongsTo(User::class, 'author_id')->first();

@@ -41,7 +41,32 @@ class News extends Model
      */
     protected $fillable = ['category_id', 'title', 'text_short', 'text_full', 'active', 'author_id'];
 
+    /**
+     * @return array
+     */
+    public static function rules() {
+        return [
+           'title' => 'required|min:5|max:64|unique:news,title',
+           'category_id' => 'required|exists:categories,id',
+           'author_id' => 'required|exists:users,id',
+           'text_short' => 'required|max:256',
+           'text_full' => 'required|max:5120',
+           'active' => 'boolean',
+        ];
+    }
 
+    /**
+     * @return array
+     */
+    public static function attributeNames() {
+        return [
+            'title' => 'Заголовок',
+            'category_id' => 'Категория',
+            'text_short' => 'Короткий текст',
+            'text_full' => 'Полный текст',
+            'active' => 'Активность',
+        ];
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
