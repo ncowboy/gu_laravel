@@ -33,8 +33,8 @@ class NewsController extends Controller
     public function article($id)
     {
         if (!$model = News::query()
-        ->where(['id' => $id, 'active' => 1])
-        ->first()) {
+            ->where(['id' => $id, 'active' => 1])
+            ->first()) {
             abort(404);
         }
 
@@ -48,12 +48,19 @@ class NewsController extends Controller
     public function articleCreate(Request $request)
     {
         $model = new News();
-        if ($request->isMethod('post')) {
+        if ($request->isMethod('post')
+            && $this->validate($request, News::rules(), [], News::attributeNames())) {
             $model->fill($request->all());
             $model->save();
             return back()->with('success', 'Новость добавлена и ожидает модерации!');
         }
+
+        if (!empty($request->old())) {
+            $model->fill($request->old());
+        }
+
         return view('news.create', [
+            'model' => $model,
             'categories' => Categories::getArrayCategories()
         ]);
     }
@@ -61,7 +68,8 @@ class NewsController extends Controller
     public function leaveComment(Request $request)
     {
         $model = new Comments();
-        if ($request->isMethod('post')) {
+        if ($request->isMethod('post')
+            && $this->validate($request, Comments::rules(), [], Comments::attributeNames())) {
             $model->fill($request->all());
             $model->save();
             return back()->with('success', 'Комментарий добавлен!');

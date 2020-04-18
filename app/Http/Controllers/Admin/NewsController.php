@@ -19,26 +19,36 @@ class NewsController extends Controller
 
     public function create(Request $request)
     {
-        if ($request->isMethod('post')) {
-            $model = new News();
+        $model = new News();
+        if ($request->isMethod('post')
+            && $this->validate($request, News::rules(), [], News::attributeNames())) {
             $model->fill($request->all());
             $model->save();
 
             return redirect()->route("admin::news::index");
         }
 
+        if (!empty($request->old())) {
+            $model->fill($request->old());
+        }
+
         return view('admin.news.create', [
             'categories' => Categories::getArrayCategories(),
-            'authors' => User::getArrayUsers()
+            'authors' => User::getArrayUsers(),
+            'model' => $model
         ]);
     }
 
     public function update(Request $request, News $model)
     {
-        if ($request->isMethod('post')) {
+        if ($request->isMethod('post') && $this->validate($request, News::rules(), [], News::attributeNames())) {
             $model->fill($request->all());
             $model->save();
             return redirect()->route("admin::news::index");
+        }
+
+        if (!empty($request->old())) {
+            $model->fill($request->old());
         }
 
         return view('admin.news.update', [
@@ -55,7 +65,7 @@ class NewsController extends Controller
      */
     public function delete(News $model)
     {
-        if($model->delete()) {
+        if ($model->delete()) {
             return redirect()->route("admin::news::index");
         }
     }

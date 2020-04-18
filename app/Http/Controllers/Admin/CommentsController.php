@@ -26,15 +26,21 @@ class CommentsController extends Controller
      */
     public function create(Request $request)
     {
-        if ($request->isMethod('post')) {
-            $model = new Comments();
+        $model = new Comments();
+        if ($request->isMethod('post')
+            && $this->validate($request, Comments::rules(), [], Comments::attributeNames())) {
             $model->fill($request->all());
             $model->save();
 
             return redirect()->route("admin::comments::index");
         }
 
+        if (!empty($request->old())) {
+            $model->fill($request->old());
+        }
+
         return view('admin.comments.create', [
+            'model' => $model,
             'articles' => News::getArrayNews(),
             'authors' => User::getArrayUsers()
         ]);
@@ -47,10 +53,15 @@ class CommentsController extends Controller
      */
     public function update(Request $request, Comments $model)
     {
-        if ($request->isMethod('post')) {
+        if ($request->isMethod('post')
+            && $this->validate($request, Comments::rules(), [], Comments::attributeNames())) {
             $model->fill($request->all());
             $model->save();
             return redirect()->route("admin::comments::index");
+        }
+
+        if (!empty($request->old())) {
+            $model->fill($request->old());
         }
 
         return view('admin.comments.update', [

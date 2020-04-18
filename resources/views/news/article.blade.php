@@ -15,6 +15,13 @@
             <strong>{{ $message }}</strong>
         </div>
     @endif
+    @if($errors->has('comment'))
+        <div class="alert alert-danger">
+            @foreach($errors->get('comment') as $error)
+                <p style="margin-bottom: 0;">{{ $error }}</p>
+            @endforeach
+        </div>
+    @endif
 
     <div class="container">
         <p> {{ $model->text_full }} </p>
