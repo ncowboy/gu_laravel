@@ -26,8 +26,7 @@ class CategoriesController extends Controller
     public function create(Request $request)
     {
         $model = new Categories();
-        if ($request->isMethod('post')
-            && $this->validate($request, Categories::rules(), [], Categories::attributeNames())) {
+        if ($request->isMethod('post')) {
             $model->fill($request->all());
             $model->save();
 
@@ -51,7 +50,7 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, Categories $model)
     {
-        if ($request->isMethod('post') && $this->validate($request, Categories::rules(), [], Categories::attributeNames())) {
+        if ($request->isMethod('post')) {
             $model->fill($request->all());
             $model->save();
             return redirect()->route("admin::categories::index");

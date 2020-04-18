@@ -20,8 +20,7 @@ class NewsController extends Controller
     public function create(Request $request)
     {
         $model = new News();
-        if ($request->isMethod('post')
-            && $this->validate($request, News::rules(), [], News::attributeNames())) {
+        if ($request->isMethod('post')) {
             $model->fill($request->all());
             $model->save();
 
@@ -41,7 +40,7 @@ class NewsController extends Controller
 
     public function update(Request $request, News $model)
     {
-        if ($request->isMethod('post') && $this->validate($request, News::rules(), [], News::attributeNames())) {
+        if ($request->isMethod('post')) {
             $model->fill($request->all());
             $model->save();
             return redirect()->route("admin::news::index");

@@ -27,8 +27,7 @@ class CommentsController extends Controller
     public function create(Request $request)
     {
         $model = new Comments();
-        if ($request->isMethod('post')
-            && $this->validate($request, Comments::rules(), [], Comments::attributeNames())) {
+        if ($request->isMethod('post')) {
             $model->fill($request->all());
             $model->save();
 
@@ -53,8 +52,7 @@ class CommentsController extends Controller
      */
     public function update(Request $request, Comments $model)
     {
-        if ($request->isMethod('post')
-            && $this->validate($request, Comments::rules(), [], Comments::attributeNames())) {
+        if ($request->isMethod('post')) {
             $model->fill($request->all());
             $model->save();
             return redirect()->route("admin::comments::index");
