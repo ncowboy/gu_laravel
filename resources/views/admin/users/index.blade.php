@@ -10,6 +10,7 @@
             <th>Id</th>
             <th>ФИО</th>
             <th>email</th>
+            <th>Администратор?</th>
             <th>Создан</th>
             <th>Изменён</th>
             <th>Действия</th>
@@ -19,6 +20,7 @@
                 <td>{{$model->id}}</td>
                 <td>{{$model->name}}</td>
                 <td>{{$model->email}}</td>
+                <td>@if($model->is_admin)Да @else Нет @endif</td>
                 <td>{{$model->created_at}}</td>
                 <td>{{$model->updated_at}}</td>
                 <td>

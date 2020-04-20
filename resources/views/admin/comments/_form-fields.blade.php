@@ -33,7 +33,7 @@
 
 <div class="form-group">
     <label for="exampleFormControlTextarea1">Комментарий</label>
-    <textarea name="comment" class="form-control" id="exampleFormControlTextarea1" rows="7"></textarea>
+    <textarea name="comment" class="form-control" id="exampleFormControlTextarea1" rows="7">{{$model->comment}}</textarea>
 </div>
 @if($errors->has('comment'))
     <div class="alert alert-danger">

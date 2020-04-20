@@ -23,7 +23,6 @@
             @include('layouts.menu')
             @if (Auth::guest())
                 <a href="{{route('login')}}" class="btn btn-outline-success my-2 my-sm-0 mr-2">Вход</a>
-                <a class="text-light" href="{{route('register')}}">Регистрация</a>
             @else
                 <p class="text-light mb-0 mr-2"><a href="{{route('admin::default')}}">{{Auth::user()->email}}</a></p>
                 <form action="{{route('logout')}}" method="post" class="form-inline my-2 my-lg-0">

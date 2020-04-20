@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property int $id
  * @property string $name
  * @property string $email
+ * @property boolean $is_admin
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
@@ -42,7 +43,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'is_admin', 'password'
     ];
 
     /**
@@ -73,5 +74,27 @@ class User extends Authenticatable
                 $item['id'] => $item['name']
             ];
         });
+    }
+
+    /**
+     * @return array
+     */
+    public static function rules() {
+        return [
+            'name' => 'required|min:3|max:255',
+            'email' => 'sometimes|required|email:rfc,dns|unique:users,email',
+            'password' => 'sometimes|required|min:6'
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function attributeNames() {
+        return [
+            'name' => 'ФИО',
+            'email' => 'Email',
+            'password' => 'Пароль'
+        ];
     }
 }

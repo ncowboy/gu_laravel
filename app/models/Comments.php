@@ -37,7 +37,7 @@ class Comments extends Model
         return [
             'article_id' => 'required|exists:news,id',
             'author_id' => 'required|exists:users,id',
-            'comment' => 'required|max:1024'
+            'comment' => 'required|max:3072'
         ];
     }
 
