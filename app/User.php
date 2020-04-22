@@ -43,7 +43,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'is_admin', 'password'
+        'name', 'email', 'is_admin', 'password', 'social_network_id', 'auth_type', 'profile_pic'
     ];
 
     /**
@@ -79,7 +79,8 @@ class User extends Authenticatable
     /**
      * @return array
      */
-    public static function rules() {
+    public static function rules()
+    {
         return [
             'name' => 'required|min:3|max:255',
             'email' => 'sometimes|required|email:rfc,dns|unique:users,email',
@@ -90,11 +91,15 @@ class User extends Authenticatable
     /**
      * @return array
      */
-    public static function attributeNames() {
+    public static function attributeNames()
+    {
         return [
             'name' => 'ФИО',
             'email' => 'Email',
-            'password' => 'Пароль'
+            'password' => 'Пароль',
+            'social_network_id' => 'ID в соцсети',
+            'auth_type' => 'Соцсеть',
+            'profile_pic' => 'Аватар'
         ];
     }
 }

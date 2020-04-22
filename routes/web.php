@@ -63,7 +63,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group([
     'prefix' => 'admin',
     'as' => 'admin::',
-    'middleware'=> ['auth']
+    'middleware' => ['auth']
 
 ], function () {
     Route::get('/', [
@@ -175,4 +175,24 @@ Route::group([
             'as' => 'delete'
         ]);
     });
+});
+
+// Oauth
+
+
+Route::group([
+    'prefix' => 'oauth',
+    'as' => 'oauth::'
+], function () {
+
+    // Fаcebook
+
+    Route::get('/fbLogin', [
+        'uses' => 'OauthController@fbLogin',
+        'as' => 'fb'
+    ]);
+
+    Route::get('/fbCallback', [
+        'uses' => 'OauthController@fbCallback',
+    ]);
 });
