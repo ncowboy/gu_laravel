@@ -32,6 +32,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $social_network_id
+ * @property string $auth_type
+ * @property string $profile_pic
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereAuthType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereIsAdmin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereProfilePic($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereSocialNetworkId($value)
  */
 class User extends Authenticatable
 {

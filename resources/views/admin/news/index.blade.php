@@ -3,7 +3,24 @@
 @section('content')
     <h1>Новости</h1>
     <div class="mb-3">
-        <a class="btn btn-success" href="{{ route('admin::news::create') }}">Добавить новость</a>
+        <div class="container-fluid">
+            <div class="row justify-content-between">
+                <a class="btn btn-success" href="{{ route('admin::news::create') }}">Добавить новость</a>
+                <form class="form-inline" method="post" action="{{route('admin::news::parseXml')}}">
+                    @csrf
+                    <div class="form-group">
+                        <select name="category_id" class="form-control">
+                            @foreach($categories as $key => $value)
+                                <option value="{{$key}}"> {{$value}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-info ml-3">Добавить из RSS каналов</button>
+                </form>
+            </div>
+        </div>
+
+
     </div>
     <table class="table table-striped">
         <tr>
@@ -29,9 +46,12 @@
                     <div class="input-group input-group-sm">
                         <a class="btn btn-primary btn-sm input-group-prepend"
                            href="{{ route('admin::news::update', ['id'=> $model->id]) }}">Редактировать</a>
-                        <form class="input-group-append" action="{{ route('admin::news::delete', $model->id) }}" method="post">
+                        <form class="input-group-append" action="{{ route('admin::news::delete', $model->id) }}"
+                              method="post">
                             @csrf
-                            <button class="btn btn-danger" type="submit" onclick="return confirm('Вы уверены?')">Удалить</button>
+                            <button class="btn btn-danger" type="submit" onclick="return confirm('Вы уверены?')">
+                                Удалить
+                            </button>
                         </form>
                     </div>
 

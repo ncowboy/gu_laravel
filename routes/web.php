@@ -16,6 +16,7 @@ use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CommentValidate;
 use App\Http\Middleware\NewsValidate;
 use App\Http\Middleware\UsersValidate;
+use App\Http\Middleware\RssFeedValidate;
 
 Route::get('/', [
     'uses' => 'SiteController@index',
@@ -122,6 +123,13 @@ Route::group([
             'uses' => 'Admin\NewsController@delete',
             'as' => 'delete'
         ]);
+
+        Route::post('/parse-xml', [
+            'uses' => 'Admin\NewsController@parseXML',
+            'as' => 'parseXml'
+        ]);
+
+
     });
 
     //Categories
@@ -172,6 +180,32 @@ Route::group([
         ]);
         Route::post('/delete/{model}', [
             'uses' => 'Admin\CommentsController@delete',
+            'as' => 'delete'
+        ]);
+    });
+
+    //Rss Feeds
+
+    Route::group([
+        'prefix' => 'rss-feeds',
+        'as' => 'rssFeeds::'
+    ], function () {
+        Route::get('/', [
+            'uses' => 'Admin\RssFeedsController@index',
+            'as' => 'index'
+        ]);
+        Route::match(['post', 'get'], '/update/{model}', [
+            'uses' => 'Admin\RssFeedsController@update',
+            'as' => 'update',
+            'middleware' => RssFeedValidate::class
+        ]);
+        Route::match(['post', 'get'], '/create', [
+            'uses' => 'Admin\RssFeedsController@create',
+            'as' => 'create',
+            'middleware' => RssFeedValidate::class
+        ]);
+        Route::post('/delete/{model}', [
+            'uses' => 'Admin\RssFeedsController@delete',
             'as' => 'delete'
         ]);
     });

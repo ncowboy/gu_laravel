@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\models\Categories;
 use App\models\News;
+use App\models\RssFeeds;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -13,7 +14,13 @@ class NewsController extends Controller
     public function index()
     {
         return view('admin.news.index', [
-            'models' => News::query()->paginate(20)
+            'models' => News::query()->paginate(20),
+            'categories' => Categories::query()->where(['main' => false])->get()
+                ->mapWithKeys(function ($item) {
+                    return [
+                        $item['id'] => $item['name']
+                    ];
+                })
         ]);
     }
 
@@ -66,6 +73,14 @@ class NewsController extends Controller
     {
         if ($model->delete()) {
             return redirect()->route("admin::news::index");
+        }
+    }
+
+    public function parseXML(Request $request)
+    {
+        if($request->isMethod('post')) {
+            News::addNewsFromRss($request->get('category_id'));
+            return redirect()->route('admin::news::index');
         }
     }
 }
