@@ -70,7 +70,11 @@
                                         </a>
                                     @endif
                                 </div>
+                                <div class="col-md-8 offset-md-4 mt-3">
+                                    <a href="{{ route('oauth::fb') }}">Вход через Facebook</a>
+                                </div>
                             </div>
+
                         </form>
                     </div>
                 </div>

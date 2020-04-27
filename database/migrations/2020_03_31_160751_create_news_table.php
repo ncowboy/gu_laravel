@@ -15,10 +15,10 @@ class CreateNewsTable extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title', 64);
+            $table->string('title', 256);
             $table->bigInteger('author_id')->nullable(false)->unsigned()->index();
             $table->bigInteger('category_id')->nullable(false)->unsigned()->index();
-            $table->string('text_short', 256)->nullable(false);
+            $table->string('text_short', 1024)->nullable(false);
             $table->text('text_full')->nullable(false);
             $table->boolean('active')->default(1)->index()->nullable(false);
             $table->timestamps();

@@ -24,7 +24,7 @@
     @endif
 
     <div class="container">
-        <p> {{ $model->text_full }} </p>
+        <p> {!! $model->text_full !!} </p>
         <h3>Комментарии ({{$model->count()}})</h3>
         <a href="#comments" data-toggle="collapse">Свернуть / развернуть</a>
         @include('news.comments')

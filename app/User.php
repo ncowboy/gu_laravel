@@ -32,6 +32,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $social_network_id
+ * @property string $auth_type
+ * @property string $profile_pic
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereAuthType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereIsAdmin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereProfilePic($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereSocialNetworkId($value)
  */
 class User extends Authenticatable
 {
@@ -43,7 +50,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'is_admin', 'password'
+        'name', 'email', 'is_admin', 'password', 'social_network_id', 'auth_type', 'profile_pic'
     ];
 
     /**
@@ -79,7 +86,8 @@ class User extends Authenticatable
     /**
      * @return array
      */
-    public static function rules() {
+    public static function rules()
+    {
         return [
             'name' => 'required|min:3|max:255',
             'email' => 'sometimes|required|email:rfc,dns|unique:users,email',
@@ -90,11 +98,15 @@ class User extends Authenticatable
     /**
      * @return array
      */
-    public static function attributeNames() {
+    public static function attributeNames()
+    {
         return [
             'name' => 'ФИО',
             'email' => 'Email',
-            'password' => 'Пароль'
+            'password' => 'Пароль',
+            'social_network_id' => 'ID в соцсети',
+            'auth_type' => 'Соцсеть',
+            'profile_pic' => 'Аватар'
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\models;
 use Illuminate\Database\Eloquent\Model;
 use App\models\Comments;
 use App\User;
+use Orchestra\Parser\Xml\Facade as XMLParser;
 
 /**
  * Class News
@@ -33,6 +34,7 @@ use App\User;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\models\News whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\models\News whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read int|null $comments_count
  */
 class News extends Model
 {
@@ -44,21 +46,23 @@ class News extends Model
     /**
      * @return array
      */
-    public static function rules() {
+    public static function rules()
+    {
         return [
-           'title' => 'required|min:5|max:64|unique:news,title',
-           'category_id' => 'required|exists:categories,id',
-           'author_id' => 'required|exists:users,id',
-           'text_short' => 'required|max:256',
-           'text_full' => 'required|max:5120',
-           'active' => 'boolean',
+            'title' => 'required|min:5|max:64|unique:news,title',
+            'category_id' => 'required|exists:categories,id',
+            'author_id' => 'required|exists:users,id',
+            'text_short' => 'required|max:256',
+            'text_full' => 'required|max:5120',
+            'active' => 'boolean',
         ];
     }
 
     /**
      * @return array
      */
-    public static function attributeNames() {
+    public static function attributeNames()
+    {
         return [
             'title' => 'Заголовок',
             'category_id' => 'Категория',
@@ -67,6 +71,7 @@ class News extends Model
             'active' => 'Активность',
         ];
     }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -106,6 +111,53 @@ class News extends Model
                 $item['id'] => "{$item['id']}-{$item['title']}"
             ];
         });
+    }
+
+    /**
+     * @param $category_id
+     */
+    public static function addNewsFromRss($category_id)
+    {
+        $data = self::getRssNews($category_id);
+
+        foreach ($data as $key => $channelNews) {
+            $feed = RssFeeds::find($key)->first();
+            foreach ($channelNews['news'] as $article) {
+                if($article['pubDate'] > $feed->feed_updated)
+                $model = new News();
+                $model->fill([
+                    'title' => $article['title'],
+                    'author_id' => \Auth::id(),
+                    'category_id' => $category_id,
+                    'text_short' => $article['title'],
+                    'text_full' => "{$article['description']}
+                     <br><a href='{$article['link']}'> Источник </a>"
+                ]);
+                $model->save();
+            }
+            $feed->setAttribute('feed_updated', date("Y-m-d H:i:s"));
+            $feed->save();
+        }
+    }
+
+    /**
+     * @param $category_id
+     * @return array
+     */
+    public static function getRssNews($category_id) {
+        $data = [];
+
+        $models = RssFeeds::query()->where(['category_id' => $category_id])->get();
+
+        foreach ($models as $model) {
+            $xml = XMLParser::load($model->url);
+            $data[$model->id] = $xml->parse([
+                'news' => [
+                    'uses' => 'channel.item[title,link,guid,description,pubDate]'
+                ],
+            ]);
+        }
+        return $data;
     }
 
 }

@@ -63,6 +63,11 @@
                             Комментарии
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('admin::rssFeeds::index')}}">
+                            RSS каналы
+                        </a>
+                    </li>
                 </ul>
             </div>
         </nav>
