@@ -42,8 +42,9 @@
     </div>
 @endif
 <div class="form-group">
-    <label for="exampleFormControlTextarea1">Короткиий текст новости</label>
-    <textarea name="text_short" class="form-control" id="exampleFormControlTextarea1" rows="3">{{$model->text_short}}</textarea>
+    <label for="text_short">Короткиий текст новости</label>
+    <textarea name="text_short" class="form-control" id="text_short"
+              rows="3">{{$model->text_short}}</textarea>
 </div>
 @if($errors->has('text_short'))
     <div class="alert alert-danger">
@@ -53,8 +54,8 @@
     </div>
 @endif
 <div class="form-group">
-    <label for="exampleFormControlTextarea1">Полный текст новости</label>
-    <textarea name="text_full" class="form-control" id="exampleFormControlTextarea1" rows="7">{{$model->text_full}}</textarea>
+    <label for="text_full">Полный текст новости</label>
+    <textarea name="text_full" class="form-control" id="text_full" rows="7">{{$model->text_full}}</textarea>
 </div>
 @if($errors->has('text_full'))
     <div class="alert alert-danger">
@@ -78,3 +79,14 @@
     </div>
 @endif
 <button type="submit" class="btn btn-primary">Отправить</button>
+<script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('text_full',
+        {
+            filebrowserImageBrowseUrl: '/laravel-filemanager?type=Images',
+            filebrowserImageUploadUrl: '/laravel-filemanager/upload?type=Images&_token={{csrf_token()}}',
+            filebrowserBrowseUrl: '/laravel-filemanager?type=Files',
+            filebrowserUploadUrl: '/laravel-filemanager/upload?type=Files&_token={{csrf_token()}}'
+        });
+    CKEDITOR.replace('text_short');
+</script>
