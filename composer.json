@@ -15,7 +15,10 @@
         "laravel/socialite": "^4.3",
         "laravel/tinker": "^1.0",
         "orchestra/parser": "^3.8",
-        "socialiteproviders/facebook": "^1.0"
+        "predis/predis": "^1.1",
+        "socialiteproviders/facebook": "^1.0",
+        "unisharp/laravel-ckeditor": "^4.7",
+        "unisharp/laravel-filemanager": "~1.8"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",

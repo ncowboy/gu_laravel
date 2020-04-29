@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\models\Categories;
 use App\models\News;
-use App\models\RssFeeds;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Jobs\NewsParsing;
 
 class NewsController extends Controller
 {
@@ -76,10 +76,15 @@ class NewsController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     */
     public function parseXML(Request $request)
     {
-        if($request->isMethod('post')) {
-            News::addNewsFromRss($request->get('category_id'));
+        if ($request->isMethod('post')) {
+
+            NewsParsing::dispatch($request->get('category_id'), \Auth::id());
+
             return redirect()->route('admin::news::index');
         }
     }

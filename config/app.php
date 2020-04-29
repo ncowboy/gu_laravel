@@ -139,8 +139,8 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
-        \Orchestra\Parser\XmlServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
+        \Orchestra\Parser\XmlServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
@@ -178,6 +178,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        Unisharp\Ckeditor\ServiceProvider::class,
 
     ],
 
